@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAR'S STUDIOS ヒーロー診断</title>
+    <style>
+        .diag-container { font-family: 'Helvetica Neue', Arial, sans-serif; background: #121214; color: #ffffff; padding: 20px; border-radius: 12px; max-width: 500px; margin: 10px auto; box-shadow: 0 4px 15px rgba(0,0,0,0.5); border: 1px solid #2a2a2e; }
+        .diag-header { text-align: center; border-bottom: 2px solid #e50914; padding-bottom: 10px; margin-bottom: 20px; }
+        .diag-header h2 { margin: 0; font-size: 1.6rem; color: #e50914; letter-spacing: 2px; font-weight: 900; }
+        .diag-header p { margin: 5px 0 0 0; font-size: 0.85rem; color: #a0a0a5; letter-spacing: 1px; }
+        .question-box { display: none; }
+        .question-box.active { display: block; animation: fadeIn 0.4s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        .q-title { font-size: 1.1rem; margin-bottom: 15px; font-weight: bold; line-height: 1.4; }
+        .q-progress { font-size: 0.8rem; color: #e50914; margin-bottom: 10px; font-weight: bold; }
+        .btn-option { display: block; width: 100%; background: #222226; border: 1px solid #3a3a40; color: #fff; padding: 14px; margin-bottom: 12px; border-radius: 8px; cursor: pointer; text-align: left; font-size: 0.95rem; transition: all 0.2s ease; }
+        .btn-option:hover { background: #2a2a30; border-color: #e50914; }
+        .result-box { display: none; text-align: center; animation: fadeIn 0.6s ease; }
+        .result-box.active { display: block; }
+        .tribe-badge { background: #e50914; color: #fff; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; display: inline-block; margin-bottom: 10px; }
+        .hero-name { font-size: 2rem; font-weight: 900; margin: 5px 0 5px 0; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
+        .menu-badge { background: #333; color: #ffcc00; padding: 6px 14px; border-radius: 6px; font-size: 0.9rem; font-weight: bold; display: inline-block; margin-bottom: 15px; border: 1px solid #ffcc00; }
+        .hero-desc { font-size: 0.95rem; color: #ccc; line-height: 1.5; margin-bottom: 20px; text-align: left; background: #1a1a1e; padding: 15px; border-radius: 8px; border-left: 4px solid #e50914; }
+        .action-box { background: #1e1214; border: 1px dashed #e50914; padding: 15px; border-radius: 8px; margin-top: 20px; }
+        .action-title { color: #ff3333; font-weight: bold; font-size: 0.9rem; margin-bottom: 8px; }
+        .action-text { font-size: 0.9rem; line-height: 1.4; color: #fff; font-style: italic; text-align: left; }
+        .btn-reset { background: transparent; border: 1px solid #555; color: #888; padding: 8px 16px; border-radius: 6px; cursor: pointer; margin-top: 20px; font-size: 0.8rem; }
+        .btn-reset:hover { color: #fff; border-color: #fff; }
+    </style>
+</head>
+<body>
+
+<div class="diag-container">
+    <div class="diag-header">
+        <h2>MAR'S STUDIOS</h2>
+        <p>マーベルヒーロー診断 オフィシャルOS</p>
+    </div>
+
+    <div class="question-box active" id="q1">
+        <div class="q-progress">QUESTION 1 / 5</div>
+        <div class="q-title">あなたの戦い方（ビジネス・人生）のベースは？</div>
+        <button class="btn-option" onclick="nextQuestion(1, 'A')">【A】 緻密な計画、データ、ロジック（仕組み重視）</button>
+        <button class="btn-option" onclick="nextQuestion(1, 'B')">【B】 圧倒的なパッション、仲間との絆（感情重視）</button>
+    </div>
+
+    <div class="question-box" id="q2">
+        <div class="q-progress">QUESTION 2 / 5</div>
+        <div class="q-title">今夜、マーズスタジオに最も求めているものは？</div>
+        <button class="btn-option" onclick="nextQuestion(2, 'C')">【C】 ストレスをぶっ飛ばしてスカッとしたい！（刺激・解放）</button>
+        <button class="btn-option" onclick="nextQuestion(2, 'D')">【D】 心地よい空間で、仲間と緩く繋がりたい（安心・居場所）</button>
+    </div>
+
+    <div class="question-box" id="q3">
+        <div class="q-progress">QUESTION 3 / 5</div>
+        <div class="q-title">もし目の前に「誰も超えたことがない壁」が現れたら？</div>
+        <button class="btn-option" onclick="nextQuestion(3, 'X')">【X】 自分の力や頭脳を限界まで磨き、単独で突破する</button>
+        <button class="btn-option" onclick="nextQuestion(3, 'Y')">【Y】 信頼できるチームを集め、強みを掛け合わせて超える</button>
+    </div>
+
+    <div class="question-box" id="q4">
+        <div class="q-progress">QUESTION 4 / 5</div>
+        <div class="q-title">あなたにとって「お酒の席」とはどんな時間？</div>
+        <button class="btn-option" onclick="nextQuestion(4, 'L')">【⚡】 理性をオフにして、思いっきり熱狂・陶酔する時間</button>
+        <button class="btn-option" onclick="nextQuestion(4, 'M')">【🍸】 五感を研ぎ澄まし、深い思考や本音の対話を楽しむ時間</button>
+    </div>
+
+    <div class="question-box" id="q5">
+        <div class="q-progress">QUESTION 5 / 5</div>
+        <div class="q-title">ビジネスや人間関係で、最も大切にしているスタンスは？</div>
+        <button class="btn-option" onclick="nextQuestion(5, 'F')">【🔥】 常識をブチ壊して、新しい価値や変化、笑いを起こす</button>
+        <button class="btn-option" onclick="nextQuestion(5, 'S')">【🛡️】 築き上げてきた信頼、約束、大切な居場所を守り抜く</button>
+    </div>
+
+    <div class="result-box" id="resultView">
+        <div class="tribe-badge" id="resTribe">陣営</div>
+        <div class="hero-name" id="resHero">ヒーロー名</div>
+        <div class="menu-badge" id="resMenu">推奨メニュー</div>
+        <div class="hero-desc" id="resDesc">解説</div>
+        
+        <div class="action-box">
+            <div class="action-title">🔥 スタッフからの火をつける一言</div>
+            <div class="action-text" id="resAction">セリフ</div>
+        </div>
+        
+        <button class="btn-reset" onclick="resetDiag()">もう一度診断する</button>
+    </div>
+</div>
+
+<script>
+    let userAnswers = [];
+
+    // 高単価コントロールテーブル（全32パターンマッピングはそのまま維持）
+    const resultMap = {
+        'ACXMS': 'thanos', 'ACYMS': 'thanos', 'ADXLS': 'thanos', 'ADXMF': 'thanos', 'ADXMS': 'thanos', 'ADYMS': 'thanos',
+        'BCXLS': 'venom', 'BCXMF': 'venom', 'BCXMS': 'venom', 'BDXLF': 'venom', 'BDXLS': 'venom', 'BDXMF': 'venom',
+        'ACXLF': 'ironman', 'ACXLS': 'ironman', 'ACXMF': 'ironman', 'ACYLF': 'ironman', 'ADXLF': 'ironman',
+        'ACYLS': 'strange', 'ACYMF': 'strange', 'ADYLF': 'strange', 'ADYMF': 'strange',
+        'BCXLF': 'deadpool', 'BCYLF': 'deadpool', 'BCYMF': 'deadpool',
+        'BDXMS': 'spiderman', 'BDYLF': 'spiderman', 'BDYMF': 'spiderman',
+        'ADYLS': 'cap', 'BDYLS': 'cap', 'BDYMS': 'cap',
+        'BCYLS': 'thor', 'BCYMS': 'thor'
+    };
+
+    const heroData = {
+        'thanos': {
+            tribe: "ルーラー陣営", hero: "サノス", menu: "推奨：クラッカー、バズーカ",
+            desc: "冷徹なロジックと圧倒的な覚悟で、世界の仕組みを再定義する絶対的統治者。日々、会社や世界のバランスを保つために命を削って決断（指パッチン）を下している経営者タイプです。今夜は重い鎧を脱ぎ、静かに自分の覚悟に酔える聖域を求めています。",
+            action: "「お疲れ様です、サノス長官。日々、会社や世界のバランスを保つための重いご決断（指パッチン）、本当にお疲れ様です。今夜マーズスタジオにいる間は、ガントレットを外して『クラッカー＆バズーカ』で盛大に破壊と解放を楽しんでいってください。」"
+        },
+        'venom': {
+            tribe: "ダーク陣営", hero: "ヴェノム", menu: "推奨：ハブショット × 10",
+            desc: "最悪で最高の相棒。内なる衝動を解き放ち、圧倒的な本能で喰らい尽くす共生体。自分の中に強烈な二面性や葛藤、または凄まじい野望を秘めている状態です。生半可な刺激では満足できず、今夜は松山の夜を文字通り「喰らい尽くす」ほどの圧倒的なエネルギーの爆発を求めています。",
+            action: "「おぉっとォ！内なる本能が完全に覚醒した『ヴェノム』の降臨だァーッ！！生半可な酒じゃその渇きは癒せませんよネ！？今夜は俺たちで共生して、沖縄最凶の『ハブショット10発』で脳みそ丸ごとトばしちゃいましょうッッ！！」"
+        },
+        'ironman': {
+            tribe: "イノベーター陣営", hero: "アイアンマン", menu: "推奨：山崎、マッカラン",
+            desc: "頭脳とテクノロジーで未来をこじ開ける天才カリスマ。常に脳がフル回転しており、日常のタスクや重い責任と戦っています。今夜は知的な刺激と、張り詰めた糸を解くための一杯を欲しています。",
+            action: "「いつも最前線での孤独な意思決定、本当にお疲れ様ですッ！今夜マーズスタジオにいる間だけは、重いアーマー（社長の仮面）を脱ぎ捨てて、天才にふさわしい『山崎』や『マッカラン』で贅沢な休日を全力で楽しんでいってくださいネ！」"
+        },
+        'strange': {
+            tribe: "イノベーター陣営", hero: "ドクター・ストレンジ", menu: "推奨：タランチュラショット",
+            desc: "異なる世界線（マルチバース）を繋ぎ、ひらめきを現実化する魔術師。現状の枠に収まらない「新しいひらめき」や「異文化の掛け算」を求めています。自社ビジネスに変革を起こす刺激を脳が欲しています。",
+            action: "「ようこそ、至高の魔術師。常識に縛られないあなたの知性は、まさに魔術です。今夜マーズスタジオというマルチバースで、怪しく輝く『タランチュラショット』を煽りながら、予期せぬひらめきを現実化しちゃいましょう！」"
+        },
+        'deadpool': {
+            tribe: "パッション陣営", hero: "デッドプール", menu: "推奨：テキーラショット",
+            desc: "常識を破壊し、笑いとカオスで生き残る異端児。退屈なルールに飽き飽きしており、今夜は理性を完全にオフにして、タブーなしの爆発的な楽しさに陶酔したい状態です。",
+            action: "「お待たせしました、今夜の裏の主役！マーズスタジオに『お店と客の境界線』なんてありませんッ！周りの目なんて全部無視して、『テキーラショット』流し込んで最高に暴れていってくださいネ！」"
+        },
+        'thor': {
+            tribe: "パッション陣営", hero: "マイティ・ソー", menu: "推奨：メガジョッキ、強炭酸柑橘系サワー",
+            desc: "圧倒的パッションで場を支配するムードメーカー。感情が豊かで、エネルギーが満ち溢れている状態です。理屈抜きの「爆発的な非日常」と、大声で笑える時間を求めています。",
+            action: "「キタキタ、今夜のフロアを一番熱くできる最強の雷神様アッセンブルですッ！日常のモヤモヤなんて、その圧倒的なパッションで全部ブッ飛ばしちゃってください！『メガジョッキ』片手に神の一撃（カラオケ）、期待してますヨォーッ！」"
+        },
+        'cap': {
+            tribe: "コミュニティ陣営", hero: "キャプテン・アメリカ", menu: "推奨：ビール、赤ワイン",
+            desc: "信念を貫き、チームの精神的支柱となるリーダー。義理堅く、常に周囲の満足度や人間関係を大切にしています。誰も傷つかない安全なサードプレイスで、本音を吐き出したいと感じています。",
+            action: "「いつも周りの仲間や組織のために、誠実な背中を見せ続けてくれてありがとうございます。ここでは誰もあなたを裏切りません。今夜は盾を置いて、王道の『ビール』や『赤ワイン』を嗜みながらゆっくり本音を語りましょう。」"
+        },
+        'spiderman': {
+            tribe: "コミュニティ陣営", hero: "スパイダーマン", menu: "推奨：チュロス、ホットドッグ",
+            desc: "好奇心旺盛で、誰とでも仲間になれる愛されヒーロー。感受性が鋭く、新しい「ひらめき」や「繋がり」にワクワクしたい状態です。お互いの「好き」を認め合える空間を誰よりも愛しています。",
+            action: "「あなたのその純粋な『好き』の熱量、本当に最高ですッ！小腹が空いたらウチ自慢の『ホットドッグ』や『チュロス』を片手に、恥ずかしがらずに語り明かしましょう！今夜ここで、新しい仲間を絶対に見つけちゃいましょうネ！」"
+        }
+    };
+
+    function nextQuestion(qNum, option) {
+        userAnswers.push(option);
+        document.getElementById('q' + qNum).classList.remove('active');
+        if (qNum < 5) {
+            document.getElementById('q' + (qNum + 1)).classList.add('active');
+        } else {
+            showResult();
+        }
+    }
+
+    function showResult() {
+        document.getElementById('resultView').classList.add('active');
+        
+        const key = userAnswers.join('');
+        const heroKey = resultMap[key]; 
+        const result = heroData[heroKey];
+
+        document.getElementById('resTribe').innerText = result.tribe;
+        document.getElementById('resHero').innerText = result.hero;
+        document.getElementById('resMenu').innerText = result.menu;
+        document.getElementById('resDesc').innerText = result.desc;
+        document.getElementById('resAction').innerText = result.action;
+    }
+
+    function resetDiag() {
+        userAnswers = [];
+        document.getElementById('resultView').classList.remove('active');
+        document.getElementById('q1').classList.add('active');
+    }
+</script>
+</body>
+</html>
